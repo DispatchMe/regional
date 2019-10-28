@@ -65,7 +65,7 @@ parser.add_argument('--host', help='database host')
 parser.add_argument('--port', type=int, help='database port')
 parser.add_argument('--user', default=default_user,
                     help='user name for db (default: {0})'.format(default_user))
-parser.add_argument('--password', action='store_true', help='ask for password', default=False)
+parser.add_argument('--password', help='database password', default=False)
 parser.add_argument('-p', '--poly', type=argparse.FileType('r'), help='osmosis polygon file')
 parser.add_argument('-b', '--bbox', nargs=4, type=float,
                     metavar=('Xmin', 'Ymin', 'Xmax', 'Ymax'), help='Bounding box')
@@ -87,12 +87,12 @@ if poly is None or not options.dbname:
     sys.exit()
 
 # connect to database
-passwd = ""
-if options.password:
-    passwd = getpass.getpass("Please enter your password: ")
+#passwd = ""
+#if options.password:
+    #passwd = getpass.getpass("Please enter your password: ")
 
 try:
-    db = psycopg2.connect(database=options.dbname, user=options.user, password=passwd,
+    db = psycopg2.connect(database=options.dbname, user=options.user, password=options.password,
                           host=options.host, port=options.port)
 except Exception as e:
     print("Error connecting to database: {}".format(e))
